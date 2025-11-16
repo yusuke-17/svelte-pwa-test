@@ -19,6 +19,23 @@ Svelte 5 + Vite + TypeScript + vite-plugin-pwa で構築したシンプルなTod
 
 ## 🛠️ セットアップ
 
+### 環境変数の設定
+
+外部ドメイン（ngrokなど）からアクセスする場合は、環境変数を設定してください:
+
+```bash
+# .env.localファイルを作成（.env.exampleをコピー）
+cp .env.example .env.local
+
+# .env.localを編集して、許可するホストを設定
+# 例: ALLOWED_HOSTS=localhost,your-domain.ngrok-free.dev
+```
+
+**セキュリティ上の注意:**
+- `.env.local`はGit管理対象外です（個人の開発環境用）
+- デフォルトでは`localhost`のみ許可されています
+- 外部ドメインを追加する場合は、信頼できるドメインのみを指定してください
+
 ### クイックスタート（推奨）
 
 ```bash
