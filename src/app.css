@@ -1,17 +1,22 @@
-* {
-  box-sizing: border-box;
+@import 'tailwindcss';
+
+@theme {
+  --color-primary: #667eea;
+  --color-secondary: #764ba2;
+  --color-danger: #ff4757;
 }
 
-html,
-body {
-  height: 100%;
-}
+@layer components {
+  .custom-checkbox {
+    @apply border-primary relative h-6 w-6 cursor-pointer appearance-none rounded-md border-2 transition-all duration-300;
+  }
 
-body {
-  margin: 0;
-  padding: 0;
-}
+  .custom-checkbox:checked {
+    @apply bg-primary;
+  }
 
-#app {
-  min-height: 100vh;
+  .custom-checkbox:checked::after {
+    content: '✓';
+    @apply absolute inset-0 flex items-center justify-center text-base font-bold text-white;
+  }
 }

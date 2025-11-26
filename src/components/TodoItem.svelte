@@ -14,104 +14,25 @@
   let { todo, onToggle, onDelete }: Props = $props();
 </script>
 
-<div class="todo-item" class:completed={todo.completed}>
-  <label class="checkbox-wrapper">
-    <input type="checkbox" checked={todo.completed} onchange={onToggle} />
-    <span class="checkmark"></span>
+<div
+  class="flex items-center gap-3 rounded-lg bg-gray-50 p-4 transition-all hover:translate-x-1 hover:bg-gray-100"
+  class:opacity-60={todo.completed}
+>
+  <label class="flex cursor-pointer items-center">
+    <input type="checkbox" checked={todo.completed} onchange={onToggle} class="custom-checkbox" />
   </label>
-  <span class="todo-text">{todo.text}</span>
-  <button onclick={onDelete} class="delete-btn" aria-label="削除"> ✕ </button>
+  <span
+    class="flex-1 text-base break-words text-gray-800"
+    class:line-through={todo.completed}
+    class:text-gray-400={todo.completed}
+  >
+    {todo.text}
+  </span>
+  <button
+    onclick={onDelete}
+    class="bg-danger flex h-8 w-8 flex-shrink-0 cursor-pointer items-center justify-center rounded-md border-0 text-lg text-white transition-all hover:scale-110 hover:bg-red-600 active:scale-95"
+    aria-label="削除"
+  >
+    ✕
+  </button>
 </div>
-
-<style>
-  .todo-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 15px;
-    background: #f8f9fa;
-    border-radius: 8px;
-    transition: all 0.3s;
-  }
-
-  .todo-item:hover {
-    background: #f0f1f3;
-    transform: translateX(5px);
-  }
-
-  .todo-item.completed {
-    opacity: 0.6;
-  }
-
-  .checkbox-wrapper {
-    position: relative;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-  }
-
-  .checkbox-wrapper input {
-    opacity: 0;
-    position: absolute;
-    cursor: pointer;
-  }
-
-  .checkmark {
-    width: 24px;
-    height: 24px;
-    border: 2px solid #667eea;
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s;
-  }
-
-  .checkbox-wrapper input:checked ~ .checkmark {
-    background: #667eea;
-  }
-
-  .checkbox-wrapper input:checked ~ .checkmark::after {
-    content: '✓';
-    color: white;
-    font-size: 16px;
-    font-weight: bold;
-  }
-
-  .todo-text {
-    flex: 1;
-    font-size: 16px;
-    color: #333;
-    word-break: break-word;
-  }
-
-  .completed .todo-text {
-    text-decoration: line-through;
-    color: #999;
-  }
-
-  .delete-btn {
-    width: 32px;
-    height: 32px;
-    border: none;
-    background: #ff4757;
-    color: white;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s;
-    flex-shrink: 0;
-  }
-
-  .delete-btn:hover {
-    background: #ff3838;
-    transform: scale(1.1);
-  }
-
-  .delete-btn:active {
-    transform: scale(0.95);
-  }
-</style>

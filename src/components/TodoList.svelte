@@ -65,21 +65,28 @@
   }
 </script>
 
-<div class="todo-container">
-  <div class="input-group">
+<div class="rounded-xl bg-white p-6 shadow-2xl sm:p-4">
+  <div class="mb-5 flex gap-2.5 sm:flex-col">
     <input
       type="text"
       bind:value={newTodoText}
       onkeydown={handleKeydown}
       placeholder="新しいタスクを入力..."
-      class="todo-input"
+      class="focus:border-primary flex-1 rounded-lg border-2 border-gray-200 px-4 py-3 text-base transition-colors focus:outline-none"
     />
-    <button onclick={addTodo} class="add-btn">追加</button>
+    <button
+      onclick={addTodo}
+      class="from-primary to-secondary cursor-pointer rounded-lg border-0 bg-gradient-to-br px-6 py-3 text-base font-semibold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 sm:w-full"
+    >
+      追加
+    </button>
   </div>
 
-  <div class="todo-list">
+  <div class="flex flex-col gap-2.5">
     {#if todos.length === 0}
-      <p class="empty-message">タスクがありません。新しいタスクを追加してください。</p>
+      <p class="px-5 py-10 text-center text-base text-gray-400">
+        タスクがありません。新しいタスクを追加してください。
+      </p>
     {:else}
       {#each todos as todo (todo.id)}
         <TodoItem
@@ -91,82 +98,3 @@
     {/if}
   </div>
 </div>
-
-<style>
-  .todo-container {
-    background: white;
-    border-radius: 12px;
-    padding: 25px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-  }
-
-  .input-group {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-  }
-
-  .todo-input {
-    flex: 1;
-    padding: 12px 15px;
-    border: 2px solid #e0e0e0;
-    border-radius: 8px;
-    font-size: 16px;
-    transition: border-color 0.3s;
-  }
-
-  .todo-input:focus {
-    outline: none;
-    border-color: #667eea;
-  }
-
-  .add-btn {
-    padding: 12px 25px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition:
-      transform 0.2s,
-      box-shadow 0.2s;
-  }
-
-  .add-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-  }
-
-  .add-btn:active {
-    transform: translateY(0);
-  }
-
-  .todo-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .empty-message {
-    text-align: center;
-    color: #999;
-    padding: 40px 20px;
-    font-size: 16px;
-  }
-
-  @media (max-width: 600px) {
-    .todo-container {
-      padding: 15px;
-    }
-
-    .input-group {
-      flex-direction: column;
-    }
-
-    .add-btn {
-      width: 100%;
-    }
-  }
-</style>
