@@ -11,17 +11,19 @@
 Svelte 5の新しいリアクティビティシステム（Runes）を使用してください。
 
 #### リアクティブな状態管理
+
 ```typescript
 // ✅ 正しい
 let count = $state(0);
 let items = $state<Item[]>([]);
-let text = $state("");
+let text = $state('');
 
 // ❌ 間違い（レガシー構文）
 let count = 0; // $: で監視
 ```
 
 #### コンポーネントプロップス
+
 ```typescript
 // ✅ 正しい
 interface Props {
@@ -36,6 +38,7 @@ export let count: number = 0;
 ```
 
 #### 派生値の計算
+
 ```typescript
 // ✅ 正しい
 let doubled = $derived(count * 2);
@@ -44,7 +47,7 @@ let total = $derived(items.reduce((sum, item) => sum + item.price, 0));
 // 複雑な計算の場合
 let expensive = $derived.by(() => {
   // 重い計算処理
-  return items.filter(item => item.active).length;
+  return items.filter((item) => item.active).length;
 });
 
 // ❌ 間違い（レガシー構文）
@@ -52,6 +55,7 @@ $: doubled = count * 2;
 ```
 
 #### 副作用の処理
+
 ```typescript
 // ✅ 正しい
 $effect(() => {
@@ -67,13 +71,14 @@ $: console.log('Count changed:', count);
 ```
 
 #### エントリーポイント
+
 ```typescript
 // ✅ 正しい（main.ts）
 import { mount } from 'svelte';
 import App from './App.svelte';
 
 const app = mount(App, {
-  target: document.getElementById('app')!
+  target: document.getElementById('app')!,
 });
 
 // ❌ 間違い（レガシー構文）
@@ -123,7 +128,7 @@ Svelte 5では、ネイティブHTMLイベント属性スタイルを使用し�
     text: string;
     completed: boolean;
   }
-  
+
   let todos = $state<Todo[]>([]);
 </script>
 
@@ -136,6 +141,7 @@ Svelte 5では、ネイティブHTMLイベント属性スタイルを使用し�
 ### 型定義のガイドライン
 
 #### インターフェースの明示
+
 ```typescript
 // ✅ 正しい
 interface User {
@@ -157,6 +163,7 @@ function getUser(id) {
 #### 型定義の配置場所
 
 1. **コンポーネント固有の型**: 同じ `.svelte` ファイル内に定義
+
    ```typescript
    <script lang="ts">
      interface Todo {
@@ -168,6 +175,7 @@ function getUser(id) {
    ```
 
 2. **共有型**: `src/types/` ディレクトリに配置
+
    ```typescript
    // src/types/user.ts
    export interface User {
@@ -178,10 +186,11 @@ function getUser(id) {
    ```
 
 3. **グローバル型宣言**: `src/vite-env.d.ts` に追加
+
    ```typescript
    /// <reference types="svelte" />
    /// <reference types="vite/client" />
-   
+
    interface ImportMetaEnv {
      readonly VITE_API_URL: string;
    }
@@ -212,11 +221,13 @@ let { todo, onToggle, onDelete } = $props();
 プロジェクトに Prettier を導入する場合の推奨設定:
 
 #### インストール
+
 ```bash
 pnpm add -D prettier prettier-plugin-svelte
 ```
 
 #### `.prettierrc` 推奨設定
+
 ```json
 {
   "printWidth": 100,
@@ -238,6 +249,7 @@ pnpm add -D prettier prettier-plugin-svelte
 ```
 
 #### `.prettierignore`
+
 ```
 node_modules
 dist
@@ -246,6 +258,7 @@ pnpm-lock.yaml
 ```
 
 #### `package.json` にスクリプト追加
+
 ```json
 {
   "scripts": {
@@ -258,12 +271,14 @@ pnpm-lock.yaml
 ### ESLint設定
 
 #### インストール
+
 ```bash
 pnpm add -D eslint @typescript-eslint/eslint-plugin @typescript-eslint/parser
 pnpm add -D eslint-plugin-svelte svelte-eslint-parser
 ```
 
 #### `.eslintrc.cjs` 推奨設定
+
 ```javascript
 module.exports = {
   root: true,
@@ -297,6 +312,7 @@ module.exports = {
 ```
 
 #### `package.json` にスクリプト追加
+
 ```json
 {
   "scripts": {
@@ -324,6 +340,7 @@ module.exports = {
 ```
 
 #### サイズガイドライン
+
 - 150行を超える場合は分割を検討
 - ロジックとUIの分離を意識
 
@@ -335,7 +352,7 @@ interface Props {
   // 必須プロップス
   id: number;
   title: string;
-  
+
   // 任意プロップス（デフォルト値あり）
   count?: number;
   enabled?: boolean;
@@ -392,12 +409,12 @@ let { onSave, onCancel }: Props = $props();
     margin: 0;
     font-family: sans-serif;
   }
-  
+
   /* Scoped */
   .container {
     /* ... */
   }
-  
+
   /* Scoped内の特定要素をグローバルに */
   .container :global(.external-class) {
     /* ... */
@@ -414,7 +431,7 @@ let { onSave, onCancel }: Props = $props();
     --secondary-color: #764ba2;
     --text-color: #333;
   }
-  
+
   .button {
     background: var(--primary-color);
     color: white;
@@ -445,14 +462,12 @@ let isLoading = $state(false);
 let doubled = $derived(count * 2);
 
 // 配列の変換
-let completedCount = $derived(
-  todos.filter(todo => todo.completed).length
-);
+let completedCount = $derived(todos.filter((todo) => todo.completed).length);
 
 // 複雑な計算
 let filteredItems = $derived.by(() => {
   return items
-    .filter(item => item.active)
+    .filter((item) => item.active)
     .sort((a, b) => a.name.localeCompare(b.name))
     .slice(0, 10);
 });
@@ -463,21 +478,22 @@ let filteredItems = $derived.by(() => {
 複数のコンポーネント間で状態を共有する場合:
 
 #### 親コンポーネント（プロバイダー）
+
 ```typescript
 <script lang="ts">
   import { setContext } from 'svelte';
-  
+
   interface UserContext {
     user: User;
     updateUser: (data: Partial<User>) => void;
   }
-  
+
   let user = $state<User>({ id: 1, name: 'John' });
-  
+
   function updateUser(data: Partial<User>) {
     user = { ...user, ...data };
   }
-  
+
   setContext<UserContext>('user', {
     get user() { return user; },
     updateUser
@@ -486,15 +502,16 @@ let filteredItems = $derived.by(() => {
 ```
 
 #### 子コンポーネント（コンシューマー）
+
 ```typescript
 <script lang="ts">
   import { getContext } from 'svelte';
-  
+
   interface UserContext {
     user: User;
     updateUser: (data: Partial<User>) => void;
   }
-  
+
   const { user, updateUser } = getContext<UserContext>('user');
 </script>
 
@@ -506,7 +523,7 @@ let filteredItems = $derived.by(() => {
 #### キープレフィックスを使用
 
 ```typescript
-const STORAGE_KEY = "svelte-pwa-todos"; // プロジェクト名をプレフィックスに
+const STORAGE_KEY = 'svelte-pwa-todos'; // プロジェクト名をプレフィックスに
 
 function saveTodos() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(todos));
@@ -518,7 +535,7 @@ function loadTodos() {
     try {
       todos = JSON.parse(stored);
     } catch (e) {
-      console.error("Failed to load todos:", e);
+      console.error('Failed to load todos:', e);
       todos = [];
     }
   }
@@ -554,7 +571,7 @@ items = JSON.parse(localStorage.getItem(KEY));
 VitePWA({
   registerType: 'autoUpdate', // ✅ 自動更新
   // registerType: 'prompt', // ユーザーに確認する場合
-})
+});
 ```
 
 #### manifest.json更新時の注意
@@ -586,13 +603,13 @@ VitePWA({
           cacheName: 'api-cache',
           expiration: {
             maxEntries: 10,
-            maxAgeSeconds: 60 * 60 * 24 // 24時間
-          }
-        }
-      }
-    ]
-  }
-})
+            maxAgeSeconds: 60 * 60 * 24, // 24時間
+          },
+        },
+      },
+    ],
+  },
+});
 ```
 
 ### テスト環境
@@ -707,7 +724,7 @@ describe('TodoItem', () => {
   it('renders todo text', () => {
     const todo = { id: 1, text: 'Test Todo', completed: false };
     render(TodoItem, { todo, onToggle: vi.fn(), onDelete: vi.fn() });
-    
+
     expect(screen.getByText('Test Todo')).toBeInTheDocument();
   });
 
@@ -715,10 +732,10 @@ describe('TodoItem', () => {
     const todo = { id: 1, text: 'Test', completed: false };
     const onToggle = vi.fn();
     render(TodoItem, { todo, onToggle, onDelete: vi.fn() });
-    
+
     const checkbox = screen.getByRole('checkbox');
     await fireEvent.click(checkbox);
-    
+
     expect(onToggle).toHaveBeenCalledOnce();
   });
 });
@@ -740,20 +757,20 @@ import { test, expect } from '@playwright/test';
 
 test('add new todo', async ({ page }) => {
   await page.goto('http://localhost:5173');
-  
+
   await page.fill('input[placeholder*="新しいタスク"]', 'Test Todo');
   await page.click('button:has-text("追加")');
-  
+
   await expect(page.locator('text=Test Todo')).toBeVisible();
 });
 
 test('toggle todo completion', async ({ page }) => {
   await page.goto('http://localhost:5173');
-  
+
   // Add todo
   await page.fill('input[placeholder*="新しいタスク"]', 'Test');
   await page.click('button:has-text("追加")');
-  
+
   // Toggle
   await page.click('input[type="checkbox"]');
   await expect(page.locator('input[type="checkbox"]')).toBeChecked();
@@ -856,16 +873,16 @@ svelte-pwa-test/
 
 ```typescript
 // ✅ 正しい
-const MAX_ITEMS = 100;           // 定数: UPPER_SNAKE_CASE
-let userName = $state("");        // 変数: camelCase
+const MAX_ITEMS = 100; // 定数: UPPER_SNAKE_CASE
+let userName = $state(''); // 変数: camelCase
 function getUserById(id: number) {} // 関数: camelCase
 
-interface User {}                 // インターフェース: PascalCase
-type UserId = number;             // 型エイリアス: PascalCase
+interface User {} // インターフェース: PascalCase
+type UserId = number; // 型エイリアス: PascalCase
 
 // ❌ 間違い
 const maxItems = 100;
-let UserName = "";
+let UserName = '';
 function GetUserById() {}
 ```
 
@@ -963,9 +980,9 @@ function handleKeydown(event: KeyboardEvent) {
   }
 }
 
-<div 
-  role="button" 
-  tabindex="0" 
+<div
+  role="button"
+  tabindex="0"
   onkeydown={handleKeydown}
   onclick={handleClick}
 >
@@ -980,8 +997,8 @@ function handleKeydown(event: KeyboardEvent) {
 ```css
 /* ✅ 正しい: 十分なコントラスト */
 .text {
-  color: #333;           /* テキスト */
-  background: #fff;      /* 背景 */
+  color: #333; /* テキスト */
+  background: #fff; /* 背景 */
 }
 
 /* ❌ 間違い: コントラスト不足 */
@@ -1040,6 +1057,7 @@ npm run build
 ```
 
 出力例:
+
 ```
 dist/assets/index-a1b2c3d4.js  45.23 kB │ gzip: 15.67 kB
 dist/assets/index-e5f6g7h8.css  3.21 kB │ gzip: 1.23 kB
@@ -1059,9 +1077,9 @@ pnpm prune
 ```typescript
 <script lang="ts">
   import { onMount } from 'svelte';
-  
+
   let HeavyComponent: any;
-  
+
   onMount(async () => {
     const module = await import('./HeavyComponent.svelte');
     HeavyComponent = module.default;
@@ -1090,29 +1108,26 @@ const routes = [
 ```html
 <!-- ✅ 正しい: WebPとフォールバック -->
 <picture>
-  <source srcset="/images/hero.webp" type="image/webp">
-  <img src="/images/hero.jpg" alt="Hero image">
+  <source srcset="/images/hero.webp" type="image/webp" />
+  <img src="/images/hero.jpg" alt="Hero image" />
 </picture>
 ```
 
 #### レスポンシブ画像（srcset）
 
 ```html
-<img 
-  srcset="
-    /images/small.jpg 480w,
-    /images/medium.jpg 768w,
-    /images/large.jpg 1200w
-  "
+<img
+  srcset="/images/small.jpg 480w, /images/medium.jpg 768w, /images/large.jpg 1200w"
   sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, 33vw"
   src="/images/medium.jpg"
   alt="Description"
->
+/>
 ```
 
 #### PWAアイコンサイズ
 
 必須サイズ:
+
 - `192x192`: ホーム画面アイコン
 - `512x512`: スプラッシュスクリーン
 
@@ -1180,11 +1195,11 @@ pnpm add svelte-virtual-list
 ```svelte
 <script lang="ts">
   import VirtualList from 'svelte-virtual-list';
-  
+
   let items = $state<Item[]>(/* 大量のデータ */);
 </script>
 
-<VirtualList items={items} let:item>
+<VirtualList {items} let:item>
   <TodoItem {item} />
 </VirtualList>
 ```
@@ -1285,6 +1300,7 @@ make preview
 #### 5. Lighthouseスコア確認
 
 Chrome DevTools → Lighthouse で以下を確認:
+
 - **Performance**: 90以上
 - **Accessibility**: 90以上
 - **Best Practices**: 90以上
@@ -1393,6 +1409,7 @@ docs: update README with PWA installation instructions
 ```
 
 例:
+
 - `feature/add-todo-filter`
 - `fix/duplicate-todo-bug`
 - `refactor/extract-todo-item`
@@ -1493,17 +1510,17 @@ interface ImportMeta {
 #### ユーザー入力のサニタイズ
 
 ```svelte
-<!-- ✅ 正しい: Svelteが自動エスケープ -->
-<p>{userInput}</p>
-
-<!-- ❌ 危険: @html は信頼できる内容のみ -->
-<p>{@html userInput}</p>
-
 <!-- ✅ 正しい: @htmlを使う場合はサニタイズ -->
 <script>
   import DOMPurify from 'dompurify';
   let sanitized = DOMPurify.sanitize(userInput);
 </script>
+
+<!-- ✅ 正しい: Svelteが自動エスケープ -->
+<p>{userInput}</p>
+
+<!-- ❌ 危険: @html は信頼できる内容のみ -->
+<p>{@html userInput}</p>
 <p>{@html sanitized}</p>
 ```
 
@@ -1516,7 +1533,7 @@ interface ImportMeta {
 export default defineConfig({
   server: {
     cors: process.env.NODE_ENV === 'development',
-  }
+  },
 });
 ```
 
@@ -1540,19 +1557,23 @@ pnpm update
 このガイドラインに従うことで、以下を実現できます:
 
 ✅ **Svelte 5の最新機能を最大限活用**
+
 - Runes構文で明確なリアクティビティ
 - 型安全なTypeScript開発
 
 ✅ **高品質なコード**
+
 - Prettier/ESLintで統一されたスタイル
 - 包括的なテスト（Unit/Component/E2E）
 
 ✅ **優れたユーザー体験**
+
 - PWAによるオフライン対応
 - アクセシビリティ対応
 - 高速なパフォーマンス
 
 ✅ **効率的な開発**
+
 - Makeコマンドで簡略化されたタスク
 - Dockerで統一された開発環境
 - 明確なGit規約

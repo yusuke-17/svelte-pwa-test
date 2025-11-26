@@ -32,6 +32,7 @@ cp .env.example .env.local
 ```
 
 **セキュリティ上の注意:**
+
 - `.env.local`はGit管理対象外です（個人の開発環境用）
 - デフォルトでは`localhost`のみ許可されています
 - 外部ドメインを追加する場合は、信頼できるドメインのみを指定してください
@@ -155,6 +156,7 @@ npm run preview
 ローカル開発サーバーをモバイルデバイスでテストする場合は、以下の方法があります:
 
 **方法1: ngrokを使用（推奨）**
+
 ```bash
 # ngrokをインストール
 brew install ngrok
@@ -166,6 +168,7 @@ ngrok http 5173
 表示されたHTTPS URLをモバイルデバイスで開いてください。
 
 **方法2: 同一ネットワーク内でアクセス**
+
 ```bash
 # MacのローカルIPを確認
 ipconfig getifaddr en0

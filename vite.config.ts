@@ -5,7 +5,7 @@ import { VitePWA } from 'vite-plugin-pwa';
 export default defineConfig(({ mode }) => {
   // 環境変数を読み込む
   const env = loadEnv(mode, process.cwd(), '');
-  
+
   return {
     plugins: [
       svelte(),
@@ -23,19 +23,19 @@ export default defineConfig(({ mode }) => {
             {
               src: 'icon-192.png',
               sizes: '192x192',
-              type: 'image/png'
+              type: 'image/png',
             },
             {
               src: 'icon-512.png',
               sizes: '512x512',
-              type: 'image/png'
-            }
-          ]
+              type: 'image/png',
+            },
+          ],
         },
         workbox: {
-          globPatterns: ['**/*.{js,css,html,ico,png,svg}']
-        }
-      })
+          globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+        },
+      }),
     ],
     server: {
       // 開発環境のみ0.0.0.0、それ以外はlocalhost
@@ -44,14 +44,12 @@ export default defineConfig(({ mode }) => {
       strictPort: true,
       hmr: {
         clientPort: 443,
-        protocol: 'wss'
+        protocol: 'wss',
       },
       // 開発環境のみCORSを有効化
       cors: process.env.NODE_ENV === 'development',
       // 環境変数で指定、デフォルトはlocalhostのみ
-      allowedHosts: env.ALLOWED_HOSTS 
-        ? env.ALLOWED_HOSTS.split(',')
-        : ['localhost']
-    }
+      allowedHosts: env.ALLOWED_HOSTS ? env.ALLOWED_HOSTS.split(',') : ['localhost'],
+    },
   };
 });

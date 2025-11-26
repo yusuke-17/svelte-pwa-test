@@ -1,7 +1,7 @@
 <script lang="ts">
-  import TodoList from "./components/TodoList.svelte";
+  import TodoList from './components/TodoList.svelte';
 
-  let appTitle = "Svelte PWA Todo";
+  let appTitle = 'Svelte PWA Todo';
 </script>
 
 <main>
@@ -15,8 +15,8 @@
   :global(body) {
     margin: 0;
     padding: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-      Ubuntu, Cantarell, sans-serif;
+    font-family:
+      -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     min-height: 100vh;
   }

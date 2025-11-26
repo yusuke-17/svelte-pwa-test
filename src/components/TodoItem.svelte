@@ -72,7 +72,7 @@
   }
 
   .checkbox-wrapper input:checked ~ .checkmark::after {
-    content: "✓";
+    content: '✓';
     color: white;
     font-size: 16px;
     font-weight: bold;

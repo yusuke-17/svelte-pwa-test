@@ -1,4 +1,4 @@
-.PHONY: help all start check reset install dev build preview typecheck clean docker-dev docker-prod docker-build docker-down docker-clean shell logs status
+.PHONY: help all start check reset install dev build preview typecheck clean docker-dev docker-prod docker-build docker-down docker-clean shell logs status format format-check lint lint-fix
 
 # デフォルト - ヘルプ表示
 help:
@@ -18,6 +18,10 @@ help:
 	@echo "  make build       - 本番ビルド"
 	@echo "  make preview     - ビルドプレビュー"
 	@echo "  make typecheck   - 型チェック"
+	@echo "  make format      - コード整形"
+	@echo "  make format-check - コード整形チェック"
+	@echo "  make lint        - コード品質チェック"
+	@echo "  make lint-fix    - コード品質チェック+自動修正"
 	@echo "  make clean       - ビルド成果物削除"
 	@echo ""
 	@echo "🐳 Docker直接操作:"
@@ -56,7 +60,7 @@ start: check-docker
 	@echo "🐳 Docker開発環境を起動します..."
 	@docker compose up dev
 
-check: check-docker typecheck
+check: check-docker typecheck format-check lint
 	@echo "✅ チェック完了"
 
 reset: check-docker
@@ -88,6 +92,22 @@ preview: check-docker
 typecheck: check-docker
 	@echo "🐳 Dockerコンテナ内で型チェック..."
 	@docker compose run --rm dev npm run typecheck
+
+format: check-docker
+	@echo "🐳 Dockerコンテナ内でコード整形..."
+	@docker compose run --rm dev npm run format
+
+format-check: check-docker
+	@echo "🐳 Dockerコンテナ内でコード整形チェック..."
+	@docker compose run --rm dev npm run format:check
+
+lint: check-docker
+	@echo "🐳 Dockerコンテナ内でLint実行..."
+	@docker compose run --rm dev npm run lint
+
+lint-fix: check-docker
+	@echo "🐳 Dockerコンテナ内でLint+自動修正..."
+	@docker compose run --rm dev npm run lint:fix
 
 clean: check-docker
 	@echo "🐳 Dockerコンテナ内でクリーン..."

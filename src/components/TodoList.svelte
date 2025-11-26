@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { onMount } from "svelte";
-  import TodoItem from "./TodoItem.svelte";
+  import { onMount } from 'svelte';
+  import TodoItem from './TodoItem.svelte';
 
   interface Todo {
     id: number;
@@ -9,9 +9,9 @@
   }
 
   let todos = $state<Todo[]>([]);
-  let newTodoText = $state("");
+  let newTodoText = $state('');
 
-  const STORAGE_KEY = "svelte-pwa-todos";
+  const STORAGE_KEY = 'svelte-pwa-todos';
 
   onMount(() => {
     loadTodos();
@@ -23,7 +23,7 @@
       try {
         todos = JSON.parse(stored);
       } catch (e) {
-        console.error("Failed to load todos:", e);
+        console.error('Failed to load todos:', e);
         todos = [];
       }
     }
@@ -43,15 +43,13 @@
           completed: false,
         },
       ];
-      newTodoText = "";
+      newTodoText = '';
       saveTodos();
     }
   }
 
   function toggleTodo(id: number) {
-    todos = todos.map((todo) =>
-      todo.id === id ? { ...todo, completed: !todo.completed } : todo
-    );
+    todos = todos.map((todo) => (todo.id === id ? { ...todo, completed: !todo.completed } : todo));
     saveTodos();
   }
 
@@ -61,7 +59,7 @@
   }
 
   function handleKeydown(event: KeyboardEvent) {
-    if (event.key === "Enter") {
+    if (event.key === 'Enter') {
       addTodo();
     }
   }
@@ -81,9 +79,7 @@
 
   <div class="todo-list">
     {#if todos.length === 0}
-      <p class="empty-message">
-        タスクがありません。新しいタスクを追加してください。
-      </p>
+      <p class="empty-message">タスクがありません。新しいタスクを追加してください。</p>
     {:else}
       {#each todos as todo (todo.id)}
         <TodoItem
